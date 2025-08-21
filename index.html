@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Square Digits Result</title>
+<style>
+ body {
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   margin: 0;
+ }
+ #result {
+   font-size: 2rem;
+   color: #333;
+ }
+</style>
+</head>
+<body>
+  <div id="result">Loading...</div>
+  <script>
+    function squareDigits(n) {
+      let result = "";
+      n = n.toString();
+      for (let i = 0; i < n.length; i++) {
+        result += parseInt(n[i]) ** 2;
+      }
+      return result;
+    }
+
+    document.getElementById('result').textContent = squareDigits(9116);
+  </script>
+</body>
+</html>
