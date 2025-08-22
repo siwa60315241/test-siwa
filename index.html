@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Countdown Timer</title>
+<style>
+ body {
+   font-family: Arial, sans-serif;
+   background-color: #f4f4f4;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   height: 100vh;
+   margin: 0;
+ }
+ .container {
+   text-align: center;
+ }
+ #display {
+   font-size: 3rem;
+   margin-bottom: 20px;
+ }
+ button, input {
+   margin: 5px;
+   padding: 10px;
+   font-size: 1rem;
+ }
+</style>
+</head>
+<body>
+  <div class="container">
+    <div id="display">00:00</div>
+    <div>
+      <input type="number" id="timeInput" placeholder="Seconds" min="0" />
+      <button id="setBtn">Set</button>
+    </div>
+    <div>
+      <button id="addBtn">+1 sec</button>
+      <button id="subBtn">-1 sec</button>
+    </div>
+    <div>
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+    </div>
+  </div>
+  <script>
+    let time = 0;
+    let intervalId = null;
+
+    function updateDisplay() {
+      const minutes = String(Math.floor(time / 60)).padStart(2, '0');
+      const seconds = String(time % 60).padStart(2, '0');
+      document.getElementById('display').textContent = `${minutes}:${seconds}`;
+    }
+
+    function setTime(value) {
+      time = Math.max(0, value);
+      updateDisplay();
+    }
+
+    document.getElementById('setBtn').addEventListener('click', () => {
+      const value = parseInt(document.getElementById('timeInput').value, 10);
+      if (!isNaN(value)) {
+        setTime(value);
+      }
+    });
+
+    document.getElementById('addBtn').addEventListener('click', () => {
+      setTime(time + 1);
+    });
+
+    document.getElementById('subBtn').addEventListener('click', () => {
+      setTime(time - 1);
+    });
+
+    document.getElementById('startBtn').addEventListener('click', () => {
+      if (intervalId !== null || time <= 0) return;
+      intervalId = setInterval(() => {
+        if (time > 0) {
+          time--;
+          updateDisplay();
+        } else {
+          clearInterval(intervalId);
+          intervalId = null;
+        }
+      }, 1000);
+    });
+
+    document.getElementById('pauseBtn').addEventListener('click', () => {
+      clearInterval(intervalId);
+      intervalId = null;
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      clearInterval(intervalId);
+      intervalId = null;
+      setTime(0);
+    });
+
+    updateDisplay();
+  </script>
+</body>
+</html>
